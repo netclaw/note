@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.notexor.notex.model.Matiere;
-import com.notexor.notex.model.Professeur;
 import com.notexor.notex.repository.MatiereRepository;
 import com.notexor.notex.repository.ProfesseurRepository;
 
