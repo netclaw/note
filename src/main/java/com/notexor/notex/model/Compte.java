@@ -1,11 +1,10 @@
 package com.notexor.notex.model;
 
-import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,8 +21,7 @@ import lombok.ToString;
 @Setter
 @Data
 @Entity
-public class Compte
-        implements UserDetails {
+public class Compte {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +32,11 @@ public class Compte
     private boolean isLocked = false;
     @OneToOne(mappedBy = "compte")
     @ToString.Exclude
+    @JsonIgnore
     private Personne personne;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Compte(String email, String password, Personne personne) {
         this.email = email;
@@ -42,40 +44,50 @@ public class Compte
         this.personne = personne;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
+    public void setRole(Role role) {
+        role = null;
+        if (personne.getClass() == Professeur.class) {
+            this.role = Role.PROF;
+        }
+        if (personne.getClass() == Student.class) {
+            this.role = Role.STUD;
+        }
     }
 
-    @Override
-    public String getUsername() {
-        // TODO Auto-generated method stub
-        return email;
-    }
+    // @Override
+    // public Collection<? extends GrantedAuthority> getAuthorities() {
+    // // TODO Auto-generated method stub
+    // return null;
+    // }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return true;
-    }
+    // @Override
+    // public String getUsername() {
+    // // TODO Auto-generated method stub
+    // return email;
+    // }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        return !isLocked;
-    }
+    // @Override
+    // public boolean isAccountNonExpired() {
+    // // TODO Auto-generated method stub
+    // return true;
+    // }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return true;
-    }
+    // @Override
+    // public boolean isAccountNonLocked() {
+    // // TODO Auto-generated method stub
+    // return !isLocked;
+    // }
 
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return true;
-    }
+    // @Override
+    // public boolean isCredentialsNonExpired() {
+    // // TODO Auto-generated method stub
+    // return true;
+    // }
+
+    // @Override
+    // public boolean isEnabled() {
+    // // TODO Auto-generated method stub
+    // return true;
+    // }
 
 }

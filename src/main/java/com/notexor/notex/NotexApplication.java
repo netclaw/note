@@ -11,9 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.notexor.notex.model.Compte;
 import com.notexor.notex.model.Grade;
 import com.notexor.notex.model.Personne;
+import com.notexor.notex.model.Role;
 import com.notexor.notex.repository.CompteRepository;
 import com.notexor.notex.repository.MatiereRepository;
 import com.notexor.notex.repository.PersonneRepository;
+import com.notexor.notex.repository.ProfesseurRepository;
 import com.notexor.notex.service.MatiereService;
 import com.notexor.notex.service.ProfesseurService;
 import com.notexor.notex.service.StudentService;
@@ -38,6 +40,9 @@ public class NotexApplication {
 	@Autowired
 	PersonneRepository pr;
 
+	@Autowired
+	ProfesseurRepository pror;
+
 	public static void main(String[] args) {
 		SpringApplication.run(NotexApplication.class, args);
 	}
@@ -57,10 +62,11 @@ public class NotexApplication {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-		Compte compte = new Compte("ysf.bk@gmail.com", encoder.encode("xqc"),
+		Compte compte = new Compte("ola", encoder.encode("xqc"),
 				pr.findByNomAndPrenom("youssef", "berkia").get());
 		Personne p = pr.findByNomAndPrenom("youssef", "berkia").get();
 		p.setCompte(compte);
+		compte.setRole(Role.STUD);
 		pr.save(p);
 
 		System.out.println("babek");
@@ -69,6 +75,8 @@ public class NotexApplication {
 
 		System.out.println();
 
+		System.out.println();
+		ps.afficherTousLesProfesseurs().forEach(System.out::println);
 	}
 
 }

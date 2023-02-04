@@ -1,5 +1,6 @@
 package com.notexor.notex.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,10 @@ public class ProfesseurService {
             }
         }
         return true;
+    }
 
+    public List<Professeur> afficherTousLesProfesseurs() {
+        return pr.findAll();
     }
 
 }

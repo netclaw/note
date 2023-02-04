@@ -3,6 +3,8 @@ package com.notexor.notex.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,9 +28,11 @@ public class Matiere {
     private int volumeHoraire;
     private int semestre;
     @OneToMany(mappedBy = "matiere", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Professeur> professeurs = new ArrayList<>();
 
     @OneToMany(mappedBy = "matiere")
+    @JsonIgnore
     private List<Note> notes = new ArrayList<>();
 
     public void addProfesseur(Professeur professeur) {
